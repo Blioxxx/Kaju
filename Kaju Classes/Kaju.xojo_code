@@ -292,6 +292,15 @@ Protected Module Kaju
 		    r = noInfoHTML
 		  end if
 		  
+		  #if TargetWin32
+		    if r.InStr( "</head>" ) <> 0 then
+		      r = r.Replace( "</head>", "<meta http-equiv=​""X-UA-Compatible"" content=​""IE=edge"" />​" + EndOfLine + "</head>" )
+		    else
+		      r = kWindowsHTMLWrapper.Replace( "@BODY@", r )
+		    end if
+		    r = ReplaceLineEndings( r, EndOfLine.Windows )
+		  #endif
+		  
 		  return r
 		End Function
 	#tag EndMethod
@@ -469,6 +478,9 @@ Protected Module Kaju
 	#tag EndConstant
 
 	#tag Constant, Name = kUpdatePacketMarker, Type = String, Dynamic = False, Default = \"KAJU ", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = kWindowsHTMLWrapper, Type = String, Dynamic = False, Default = \"<!DOCTYPE html>\n<html>\n<head>\n\t<title></title>\n\t<meta http-equiv\x3D\xE2\x80\x8B\"X-UA-Compatible\" content\x3D \"IE\x3Dedge\">\n</head>\n<body>\n@BODY@\n</body>\n</html>\n", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = Version, Type = String, Dynamic = False, Default = \"2.0", Scope = Protected
